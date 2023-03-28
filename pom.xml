@@ -14,7 +14,7 @@
 	<name>app_market_master</name>
 	<description>app_market_master</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
