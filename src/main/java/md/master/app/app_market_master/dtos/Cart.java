@@ -19,8 +19,8 @@ public class Cart {
     public List<CartItem> getItems() {
         return Collections.unmodifiableList(items);
     }
-
-    public void add(Product product) {//todo to implement products counting if product are already in cart (for next circle of development)
+    //todo grouping by id, +/- count and recalculating, add btn to clear all cart.
+    public void add(Product product) {
         items.add(new CartItem(product.getId(), product.getTitle(), 1, product.getPrice(), product.getPrice()));
         recalculate();
     }
