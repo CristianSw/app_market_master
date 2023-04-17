@@ -2,9 +2,9 @@ package md.master.app.app_market_master.controllers;
 
 import lombok.RequiredArgsConstructor;
 
+import md.master.app.app_market_master.dtos.Cart;
 import md.master.app.app_market_master.entities.Product;
 import md.master.app.app_market_master.services.CartService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,17 +14,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cart")
+@RequestMapping("/api/v1/cart")
 public class CartController {
     private final CartService cartService;
 
     @GetMapping
-    public List<Product> findAllProducts(){
-        return cartService.findAll();
+    public Cart getCurrentCart(){
+        return cartService.getCurrentCart();
     }
 
-    @GetMapping("/{id}")
-    public void addProductToCart(@PathVariable long id){
-        cartService.addProduct(id);
+    @GetMapping("/add/{id}")
+    public void addProductToCart(@PathVariable Long id){
+        cartService.add(id);
     }
 }

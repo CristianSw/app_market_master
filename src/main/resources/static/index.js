@@ -6,8 +6,8 @@ angular.module('market', []).controller('indexController', function ($scope, $ht
             });
     };
 
-    $scope.fillCart = function () {
-        $http.get('http://localhost:8189/market/cart')
+    $scope.loadCart = function () {
+        $http.get('http://localhost:8189/market/api/v1/cart')
             .then(function (response) {
                 $scope.cart = response.data;
             });
@@ -20,10 +20,10 @@ angular.module('market', []).controller('indexController', function ($scope, $ht
             });
     }
 
-    $scope.addProductToCart = function (id) {
-        $http.get('http://localhost:8189/market/cart/' + id)
+    $scope.addToCart = function (productId) {
+        $http.get('http://localhost:8189/market/api/v1/cart/add/' + productId)
             .then(function (response) {
-                $scope.fillCart();
+                $scope.loadCart();
             });
     }
 
@@ -37,5 +37,5 @@ angular.module('market', []).controller('indexController', function ($scope, $ht
     }
 
     $scope.fillTable();
-    $scope.fillCart();
+    $scope.loadCart();
 });

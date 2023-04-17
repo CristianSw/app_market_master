@@ -35,9 +35,4 @@ public class AuthController {
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
-
-    @GetMapping("/secured")
-    public String helloMessage(){
-        return "Hello from secured zona";
-    }
 }

@@ -1,5 +1,7 @@
 package md.master.app.app_market_master.entities;
+
 import javax.persistence.*;
+
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
