@@ -66,17 +66,17 @@
             <td>Name</td>
             <td>Count</td>
             <td>Price</td>
+            <td><button class="btn btn-danger" ng-click="clearCart()">Clear Cart</button></td>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="item in cart.items">
             <td>{{item.productTitle}}</td>
-            <td>{{item.quantity}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="decreaseQuantity(item.productId)">-</button>
+                {{item.quantity}}
+                <button class="btn btn-primary" ng-click="increaseQuantity(item.productId)">+</button></td>
             <td>{{item.pricePerProduct + ' x ' + item.quantity + ' = ' + item.price}}</td>
-<!--            <td>-->
-<!--                <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>-->
-<!--                <button class="btn btn-primary" ng-click="addProductToCart(p.id)">Добавить</button>-->
-<!--            </td>-->
         </tr>
         <tr>
             <td>Summarize</td>

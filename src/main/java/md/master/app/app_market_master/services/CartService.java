@@ -8,10 +8,12 @@ import md.master.app.app_market_master.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final ProductService productService;
+
 
     private Cart tempCart;
 
@@ -20,12 +22,26 @@ public class CartService {
         tempCart = new Cart();
     }
 
-    public Cart getCurrentCart(){
+    public Cart getCurrentCart() {
         return tempCart;
     }
 
-    public void add(Long productId){
-    Product product = productService.findById(productId).orElseThrow(()-> new ResourceNotFoundException("Unable to add product ith id: " + productId + ", product not found"));
-    tempCart.add(product);
+    public void add(Long productId) {
+        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product ith id: " + productId + ", product not found"));
+        tempCart.add(product);
+    }
+
+    public void clearCart() {
+        tempCart = new Cart();
+    }
+
+    public void increaseQuantity(Long productId) {
+        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product ith id: " + productId + ", product not found"));
+        tempCart.increaseQuantity(productId);
+    }
+
+    public void decreaseQuantity(Long productId) {
+        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product ith id: " + productId + ", product not found"));
+        tempCart.decreaseQuantity(productId);
     }
 }
