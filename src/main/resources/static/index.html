@@ -1,4 +1,3 @@
-
 <!doctype html>
 
 <html ng-app="market">
@@ -18,72 +17,70 @@
 <div class="container" ng-controller="indexController">
 
     <p></p>
-    <h1>Market</h1>
+    <h1>My Market</h1>
     <p></p>
-    <h3>Products</h3>
+    <h3>Список товаров</h3>
     <p></p>
     <table class="table table-hover">
         <thead>
         <tr>
             <td>ID</td>
-            <td>Title</td>
-            <td>Price</td>
+            <td>Название</td>
+            <td>Цена</td>
             <td></td>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="p in productsList">
+        <tr ng-repeat="p in products">
             <td>{{p.id}}</td>
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>
-                <button class="btn btn-primary" ng-click="showProductInfo(p.id)">INFO</button>
-<!--                <button class="btn btn-primary" ng-click="addToCart(p.id)">Add To Cart</button>-->
-                <button class="btn btn-danger" ng-click="deleteProductById(p.id)">Delete</button>
-<!--                &lt;!&ndash;                <button class="btn btn-primary" ng-click="addProductToCart(p.id)">Add</button>&ndash;&gt;-->
+                <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
+                <button class="btn btn-primary" ng-click="addProductToCart(p.id)">Добавить</button>
             </td>
         </tr>
         </tbody>
     </table>
     <p></p>
-    <!--    <h3>Add Product</h3>-->
-    <!--    <p></p>-->
-    <!--    <form class="row g-3" ng-submit="createNewProduct()">-->
-    <!--        <div class="col-auto">-->
-    <!--            <input type="text" class="form-control" id="newProductTitle" ng-model="newProduct.title" placeholder="Title">-->
-    <!--        </div>-->
-    <!--        <div class="col-auto">-->
-    <!--            <input type="number" class="form-control" id="newProductPrice" ng-model="newProduct.price" placeholder="Price">-->
-    <!--        </div>-->
-    <!--        <div class="col-auto">-->
-    <!--            <button type="submit" class="btn btn-primary mb-3">Add</button>-->
-    <!--        </div>-->
-    <!--    </form>-->
+    <h3>Добавить продукт</h3>
+    <p></p>
+    <form class="row g-3" ng-submit="createNewProduct()">
+        <div class="col-auto">
+            <input type="text" class="form-control" id="newProductTitle" ng-model="newProduct.title" placeholder="Название">
+        </div>
+        <div class="col-auto">
+            <input type="number" class="form-control" id="newProductPrice" ng-model="newProduct.price" placeholder="Цена">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Создать</button>
+        </div>
+    </form>
 
-<!--    <p></p>-->
-<!--    <h3>Products in Cart</h3>-->
-<!--    <p></p>-->
-<!--    <table class="table table-hover">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <td>Title</td>-->
-<!--            <td>Quantity</td>-->
-<!--            <td>Price</td>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr ng-repeat="item in cart.items">-->
-<!--            <td>{{item.productTitle}}</td>-->
-<!--            <td>{{item.quantity}}</td>-->
-<!--            <td>{{item.pricePerProduct + ' x ' + item.quantity + ' = ' + item.price}}</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td>Total</td>-->
-<!--            <td></td>-->
-<!--            <td>{{cart.totalPrice}}</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
+    <p></p>
+    <h3>Список товаров в корзине</h3>
+    <p></p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Название</td>
+            <td>Цена</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in cart">
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.price}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
+                <button class="btn btn-primary" ng-click="addProductToCart(p.id)">Добавить</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
