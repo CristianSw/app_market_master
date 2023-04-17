@@ -1,6 +1,7 @@
 package md.master.app.app_market_master.entities;
 
 import javax.persistence.*;
+
 import lombok.Data;
 
 import java.util.Collection;
@@ -17,11 +18,11 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
-//    @Column(name = "email")
+    //    @Column(name = "email")
 //    private String email;
     @ManyToMany
     @JoinTable(name = "users_roles",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 }
