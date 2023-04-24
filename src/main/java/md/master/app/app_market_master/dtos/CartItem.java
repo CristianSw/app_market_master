@@ -14,4 +14,12 @@ public class CartItem {
     private int pricePerProduct;
     private int price;
 
+
+
+
+    public void changeqUantity(int delta){
+        quantity+= delta;
+        price = pricePerProduct * quantity;
+    }
+
 }

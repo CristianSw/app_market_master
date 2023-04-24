@@ -33,8 +33,12 @@ public class CartController {
         cartService.decreaseQuantity(id);
     }
 
-    @DeleteMapping
-    public void clearCart(){
-        cartService.clearCart();
+    @GetMapping("/clear")
+    public void clear(){
+        cartService.clear();
+    }
+    @GetMapping("/remove/{id}")
+    public void removeFromCart(@PathVariable Long id){
+        cartService.remove(id);
     }
 }

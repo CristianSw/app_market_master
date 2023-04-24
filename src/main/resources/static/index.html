@@ -77,9 +77,11 @@
                 {{item.quantity}}
                 <button class="btn btn-primary" ng-click="increaseQuantity(item.productId)">+</button></td>
             <td>{{item.pricePerProduct + ' x ' + item.quantity + ' = ' + item.price}}</td>
+            <td><button class="btn btn-danger" ng-click="removeFromCart(item.productId)">Remove from Cart</button></td>
         </tr>
         <tr>
-            <td>Summarize</td>
+            <td>Total</td>
+            <td></td>
             <td></td>
             <td>{{cart.totalPrice}}</td>
         </tr>
