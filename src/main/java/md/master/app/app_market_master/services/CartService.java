@@ -31,8 +31,12 @@ public class CartService {
         tempCart.add(product);
     }
 
-    public void clearCart() {
-        tempCart = new Cart();
+    public void clear() {
+        tempCart.clear();
+    }
+
+    public void remove(Long productId){
+        tempCart.remove(productId);
     }
 
     public void increaseQuantity(Long productId) {

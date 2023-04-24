@@ -24,17 +24,26 @@ public class Cart {
 
 
     public void add(Product product) {
-        presentFlag = false;
         for (CartItem item : items) {
-            if (item.getProductId().equals(product.getId())) {
-                item.setQuantity(item.getQuantity() + 1);
-                presentFlag = true;
+            if (product.getId().equals(item.getProductId())) {
+                item.changeqUantity(1);
+                recalculate();
+                return;
             }
         }
-        if (!presentFlag) {
-            items.add(new CartItem(product.getId(), product.getTitle(), 1, product.getPrice(), product.getPrice()));
-        }
+        items.add(new CartItem(product.getId(), product.getTitle(), 1, product.getPrice(), product.getPrice()));
         recalculate();
+    }
+
+    public void clear(){
+        items.clear();
+        totalPrice = 0;
+    }
+
+    public void remove(Long productId){
+        if (items.removeIf(item -> item.getProductId().equals(productId))) {
+            recalculate();
+        }
     }
     public void increaseQuantity(Long productId){
         for (CartItem item : items) {
