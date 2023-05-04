@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import md.master.app.app_market_master.dtos.JwtRequest;
 import md.master.app.app_market_master.dtos.JwtResponse;
+import md.master.app.app_market_master.dtos.StringResponse;
 import md.master.app.app_market_master.services.UserService;
 import md.master.app.app_market_master.utils.JwtTokenUtil;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,5 +37,10 @@ public class AuthController {
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @GetMapping("/auth_check")
+    public StringResponse authCheck(Principal principal){
+        return new StringResponse(principal.getName());
     }
 }
