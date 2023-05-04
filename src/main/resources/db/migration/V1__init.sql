@@ -1,10 +1,28 @@
+create table categories
+(
+    id         bigserial primary key,
+    title      varchar(255),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
+
+insert into categories (title)
+values ('Memory'),
+       ('CPU'),
+       ('GPU'),
+       ('Monitor'),
+       ('Mouse'),
+       ('Keyboard');
+
+
 create table products
 (
-    id              bigserial primary key,
-    title           varchar(255),
-    price           int,
-    created_at      timestamp default current_timestamp,
-    updated_at      timestamp default current_timestamp
+    id          bigserial primary key,
+    title       varchar(255),
+    category_id bigint references categories (id),
+    price       int,
+    created_at  timestamp default current_timestamp,
+    updated_at  timestamp default current_timestamp
 );
 
 create table users
@@ -39,18 +57,18 @@ insert into users_roles (user_id, role_id)
 VALUES (1, 1),
        (2, 2);
 
-insert into products (title, price)
-values ('HDD', 2500),
-       ('SSD', 3500),
-       ('Ryzen3', 12000),
-       ('Ryzen5', 25000),
-       ('Ryzen7', 35000),
-       ('Ryzen9', 120000),
-       ('Flash Disk', 1500),
-       ('Flash microSD', 1000),
-       ('LCD монитор', 12000),
-       ('GeForce RTX2070', 75000),
-       ('Mouse', 350),
-       ('Keyboard', 1000);
+insert into products (title, price, category_id)
+values ('HDD', 2500, 1),
+       ('SSD', 3500, 1),
+       ('Ryzen3', 12000, 2),
+       ('Ryzen5', 25000, 2),
+       ('Ryzen7', 35000, 2),
+       ('Ryzen9', 120000, 2),
+       ('Flash Disk', 1500, 1),
+       ('Flash microSD', 1000, 1),
+       ('LCD монитор', 12000, 4),
+       ('GeForce RTX2070', 75000, 3),
+       ('Mouse', 350, 5),
+       ('Keyboard', 1000, 6);
 
 
