@@ -14,8 +14,6 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class CartService {
     private final ProductServiceIntegration productServiceIntegration;
-
-
     private Cart tempCart;
 
     @PostConstruct

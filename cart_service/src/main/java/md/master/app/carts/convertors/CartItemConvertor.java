@@ -9,11 +9,11 @@ public class CartItemConvertor {
 
     public CartItemDto entityToDto(CartItem cartItem){
         CartItemDto cartItemDto = new CartItemDto();
-        cartItemDto.setProductId(cartItemDto.getProductId());
-        cartItemDto.setProductTitle(cartItemDto.getProductTitle());
-        cartItemDto.setQuantity(cartItemDto.getQuantity());
+        cartItemDto.setProductId(cartItem.getProductId());
+        cartItemDto.setProductTitle(cartItem.getProductTitle());
+        cartItemDto.setQuantity(cartItem.getQuantity());
         cartItemDto.setPrice(cartItem.getPrice());
-        cartItemDto.setPricePerProduct(cartItemDto.getPricePerProduct());
+        cartItemDto.setPricePerProduct(cartItem.getPricePerProduct());
         return cartItemDto;
     }
 }
