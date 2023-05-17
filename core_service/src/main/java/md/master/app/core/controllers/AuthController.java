@@ -19,6 +19,7 @@ import java.security.Principal;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@CrossOrigin("*")
 public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;

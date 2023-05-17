@@ -7,6 +7,9 @@
 		<module>core_service</module>
 		<module>cart_service</module>
         <module>api</module>
+        <module>front_service</module>
+        <module>gateway_service</module>
+        <module>auth_service</module>
     </modules>
 
 

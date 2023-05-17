@@ -26,7 +26,7 @@ public class CartService {
     }
 
     public void add(Long productId) {
-        ProductDto product = productServiceIntegration.getProductById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product ith id: " + productId + ", product not found"));
+        ProductDto product = productServiceIntegration.getProductById(productId);
         tempCart.add(product);
     }
 
@@ -39,12 +39,12 @@ public class CartService {
     }
 
     public void increaseQuantity(Long productId) {
-        ProductDto product = productServiceIntegration.getProductById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product ith id: " + productId + ", product not found"));
+        ProductDto product = productServiceIntegration.getProductById(productId);
         tempCart.increaseQuantity(productId);
     }
 
     public void decreaseQuantity(Long productId) {
-        ProductDto product = productServiceIntegration.getProductById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product ith id: " + productId + ", product not found"));
+        ProductDto product = productServiceIntegration.getProductById(productId);
         tempCart.decreaseQuantity(productId);
     }
 }
