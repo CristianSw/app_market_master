@@ -1,9 +1,9 @@
-package md.master.app.core.services;
+package md.master.auth.services;
 
 import lombok.RequiredArgsConstructor;
-import md.master.app.core.entities.Role;
-import md.master.app.core.entities.User;
-import md.master.app.core.repositories.UserRepository;
+import md.master.auth.entities.Role;
+import md.master.auth.entities.User;
+import md.master.auth.repositories.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,8 +26,9 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).get();
+        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 

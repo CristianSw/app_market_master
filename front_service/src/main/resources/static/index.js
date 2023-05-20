@@ -1,6 +1,6 @@
 angular.module('market', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage) {
     $scope.tryToAuth = function () {
-        $http.post('http://localhost:5555/core/auth', $scope.user)
+        $http.post('http://localhost:5555/auth/auth', $scope.user)
             .then(function successCallback(response) {
                     if (response.data.token) {
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
@@ -27,12 +27,6 @@ angular.module('market', ['ngStorage']).controller('indexController', function (
         } else return false;
     };
 
-    $scope.authCheck = function (){
-        $http.get('http://localhost:5555/core/auth_check')
-            .then(function (response) {
-                alert(response.data.value);
-            });
-    }
 
     if ($localStorage.masterMarketUser) {
         try {
@@ -115,6 +109,7 @@ angular.module('market', ['ngStorage']).controller('indexController', function (
         $http.post('http://localhost:5555/core/api/v1/orders')
             .then(function (response) {
                 alert("Order created ! ")
+                $scope.loadCart();
             });
     }
 

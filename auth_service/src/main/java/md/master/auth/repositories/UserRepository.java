@@ -1,6 +1,6 @@
-package md.master.app.core.repositories;
+package md.master.auth.repositories;
 
-import md.master.app.core.entities.User;
+import md.master.auth.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

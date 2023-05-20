@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import md.master.app.api.CartDto;
 import md.master.app.core.entities.Order;
 import md.master.app.core.entities.OrderItem;
-import md.master.app.core.entities.User;
 import md.master.app.core.integrations.CartServiceIntegration;
 import md.master.app.core.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -20,10 +19,10 @@ public class OrderService {
     private final CartServiceIntegration cartServiceIntegration;
 
     @Transactional
-    public void createOrder(User user) {
-        CartDto cartDto = cartServiceIntegration.getCurrentCart().get(); //cartServiceIntegration.getCurrentCart();
+    public void createOrder(String username) {
+        CartDto cartDto = cartServiceIntegration.getCurrentCart();
         Order order = new Order();
-        order.setUser(user);
+        order.setUsername(username);
         order.setTotalPrice(cartDto.getTotalPrice());
         order.setAddress("test");
         order.setPhone("+37379356922");
@@ -36,6 +35,5 @@ public class OrderService {
                 .collect(Collectors.toList()));
         orderRepository.save(order);
         cartServiceIntegration.clearCurrentCart();
-
     }
 }

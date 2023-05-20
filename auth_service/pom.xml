@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.6</version>
+        <version>2.7.5</version>
         <relativePath/>
     </parent>
 
@@ -56,6 +56,12 @@
         <dependency>
             <groupId>md.master.app.api</groupId>
             <artifactId>api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>md.master.app.market</groupId>
+            <artifactId>core_service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

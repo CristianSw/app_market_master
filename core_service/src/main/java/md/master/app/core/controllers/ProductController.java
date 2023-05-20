@@ -1,9 +1,9 @@
 package md.master.app.core.controllers;
 
+import md.master.app.api.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import md.master.app.api.ProductDto;
 import md.master.app.core.convertors.ProductConverter;
-import md.master.app.core.exceptions.ResourceNotFoundException;
 import md.master.app.core.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;

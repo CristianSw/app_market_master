@@ -19,7 +19,7 @@ public class ProductServiceIntegration {
 
     public ProductDto getProductById(Long id){
         return productServiceWebClient.get()
-                .uri("api/v1/products/" + id)
+                .uri("/api/v1/products/" + id)
                 .retrieve()
                 .onStatus(
                         httpStatus -> httpStatus.value() == HttpStatus.NOT_FOUND.value(),
