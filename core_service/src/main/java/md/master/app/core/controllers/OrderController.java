@@ -1,28 +1,20 @@
 package md.master.app.core.controllers;
 
 import lombok.RequiredArgsConstructor;
-import md.master.app.core.entities.User;
 import md.master.app.core.services.OrderService;
-import md.master.app.core.services.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/orders")
 public class OrderController {
-    private final UserService userService;
     private final OrderService orderService;
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(Principal principal){
-        User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-    orderService.createOrder(user);
+    public void createOrder(@RequestHeader(name = "username") String username){
+    orderService.createOrder(username);
     }
 }

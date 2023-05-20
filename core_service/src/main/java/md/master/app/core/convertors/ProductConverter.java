@@ -2,9 +2,10 @@ package md.master.app.core.convertors;
 
 import lombok.RequiredArgsConstructor;
 import md.master.app.api.ProductDto;
+import md.master.app.api.ResourceNotFoundException;
 import md.master.app.core.entities.Category;
 import md.master.app.core.entities.Product;
-import md.master.app.core.exceptions.ResourceNotFoundException;
+
 import md.master.app.core.services.CategoryService;
 import org.springframework.stereotype.Component;
 
