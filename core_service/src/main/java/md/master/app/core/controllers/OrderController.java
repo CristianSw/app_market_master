@@ -14,7 +14,7 @@ public class OrderController {
     private final OrderService orderService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestHeader String username){
+    public void createOrder(@RequestHeader(name = "username") String username){
     orderService.createOrder(username);
     }
 }
