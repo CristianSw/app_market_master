@@ -1,5 +1,7 @@
 package md.master.app.carts.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import md.master.app.api.ProductDto;
 
@@ -8,6 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@Builder
 public class Cart {
     private List<CartItem> items;
     private int totalPrice;

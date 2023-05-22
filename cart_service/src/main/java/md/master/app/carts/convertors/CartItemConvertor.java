@@ -16,4 +16,14 @@ public class CartItemConvertor {
         cartItemDto.setPricePerProduct(cartItem.getPricePerProduct());
         return cartItemDto;
     }
+
+    public CartItem dtoToEntity(CartItemDto cartItemDto){
+        CartItem cartItem = new CartItem();
+        cartItem.setProductId(cartItemDto.getProductId());
+        cartItem.setProductTitle(cartItemDto.getProductTitle());
+        cartItem.setQuantity(cartItemDto.getQuantity());
+        cartItem.setPrice(cartItemDto.getPrice());
+        cartItem.setPricePerProduct(cartItemDto.getPricePerProduct());
+        return cartItem;
+    }
 }

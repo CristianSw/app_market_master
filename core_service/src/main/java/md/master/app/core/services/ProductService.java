@@ -8,6 +8,7 @@ import md.master.app.api.ResourceNotFoundException;
 import md.master.app.core.entities.Category;
 import md.master.app.core.entities.Product;
 import md.master.app.core.repositories.ProductRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
