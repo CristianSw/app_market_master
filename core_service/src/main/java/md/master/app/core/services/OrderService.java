@@ -19,13 +19,11 @@ public class OrderService {
     private final CartServiceIntegration cartServiceIntegration;
 
     @Transactional
-    public void createOrder(String username) {
+    public Order createOrder(String username) {
         CartDto cartDto = cartServiceIntegration.getCurrentCart();
         Order order = new Order();
         order.setUsername(username);
         order.setTotalPrice(cartDto.getTotalPrice());
-        order.setAddress("test");
-        order.setPhone("+37379356922");
         order.setOrderItems(cartDto.getItems().stream().map(cartItem -> new OrderItem(
                         productService.findById(cartItem.getProductId()).get(),
                         order,
@@ -35,5 +33,6 @@ public class OrderService {
                 .collect(Collectors.toList()));
         orderRepository.save(order);
         cartServiceIntegration.clearCurrentCart();
+        return order;
     }
 }

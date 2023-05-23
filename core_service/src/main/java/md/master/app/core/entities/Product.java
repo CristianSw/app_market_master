@@ -1,8 +1,7 @@
 package md.master.app.core.entities;
 
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +11,8 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "products")
+@AllArgsConstructor
+@Builder
 @NoArgsConstructor
 public class Product {
     @Id
