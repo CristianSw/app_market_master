@@ -51,11 +51,11 @@
 
 angular.module('market').controller('indexController', function ($scope, $http, $localStorage) {
         $scope.tryToAuth = function () {
-        $http.post('http://localhost:5555/auth/auth', $scope.user)
+        $http.post('http://localhost:5555/authorization/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    $localStorage.marchMarketUser = {username: $scope.user.username, token: response.data.token};
+                    $localStorage.masterMarketUser = {username: $scope.user.username, token: response.data.token};
 
                     $scope.user.username = null;
                     $scope.user.password = null;

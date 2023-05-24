@@ -34,7 +34,7 @@ spring:
         - id: auth-service
           uri: http://localhost:8188
           predicates:
-            - Path=/auth/**
+            - Path=/authorization/**
           filters:
             - StripPrefix=1
             - PrefixPath=/market-auth
