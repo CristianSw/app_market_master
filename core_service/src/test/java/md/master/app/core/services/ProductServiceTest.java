@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +51,9 @@ class ProductServiceTest {
     @Test
     void findAll() {
         Mockito.doReturn(products).when(productRepository).findAll();
+        Specification<Product> spec = Specification.where(null);
 
-        List<Product> productsToTest = productService.findAll();
+        List<Product> productsToTest = productService.findAll(spec,1).getContent();
         Assertions.assertEquals(5, productsToTest.size());
         Assertions.assertEquals(1L, productsToTest.get(0).getId());
         Assertions.assertEquals("title1", productsToTest.get(0).getTitle());

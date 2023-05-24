@@ -8,6 +8,10 @@ import md.master.app.api.ResourceNotFoundException;
 import md.master.app.core.entities.Category;
 import md.master.app.core.entities.Product;
 import md.master.app.core.repositories.ProductRepository;
+import md.master.app.core.repositories.specifications.ProductSpecifications;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +24,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public List<Product> findAll(){
-        return productRepository.findAll();
+    public Page<Product> findAll(Specification<Product> spec, int page){
+        return productRepository.findAll(spec, PageRequest.of(page,10));
     }
     public Optional<Product> findById(Long id){
         return productRepository.findById(id);
@@ -39,6 +43,22 @@ public class ProductService {
         product.setCategory(category);
         productRepository.save(product);
         return product;
+    }
+
+    public Specification<Product> createSpecByFilters(Integer minPrice, Integer maxPrice, String title){
+        Specification<Product> spec = Specification.where(null);
+        if (minPrice != null){
+            spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(minPrice));
+        }
+
+        if (maxPrice != null){
+            spec = spec.and(ProductSpecifications.priceLessOrEqualsThan(maxPrice));
+        }
+
+        if (title != null){
+            spec = spec.and(ProductSpecifications.titleLike(title));
+        }
+        return spec;
     }
 }
 

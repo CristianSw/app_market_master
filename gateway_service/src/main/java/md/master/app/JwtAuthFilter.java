@@ -68,6 +68,7 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
         exchange.getRequest().mutate()
                 .header("username", claims.getSubject())
 //                .header("role", String.valueOf(claims.get("role")))
+                .header("Access-Control-Allow-Origin", "*")
                 .build();
     }
 }
