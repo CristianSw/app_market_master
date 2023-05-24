@@ -1,0 +1,38 @@
+<div>
+  <p></p>
+  <h3>Cart</h3>
+  <p></p>
+  <table class="table table-hover table-txt-schema custom-bg-color " >
+    <thead>
+    <tr>
+      <td>Name</td>
+      <td>Count</td>
+      <td>Price</td>
+      <td>
+        <button class="btn btn-danger" ng-click="clearCart()">Clear Cart</button>
+        <button class="btn btn-primary" ng-click="createOrder()">Create Order </button>
+      </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in cart.items">
+      <td>{{item.productTitle}}</td>
+      <td>
+        <button class="btn btn-danger" ng-click="decreaseQuantity(item.productId)">-</button>
+        {{item.quantity}}
+        <button class="btn btn-primary" ng-click="increaseQuantity(item.productId)">+</button>
+      </td>
+      <td>{{item.pricePerProduct + ' x ' + item.quantity + ' = ' + item.price}}</td>
+      <td>
+        <button class="btn btn-danger" ng-click="removeFromCart(item.productId)">Remove from Cart</button>
+      </td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td></td>
+      <td></td>
+      <td>{{cart.totalPrice}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
