@@ -18,7 +18,7 @@ public class CartService {
     private final ProductServiceIntegration productServiceIntegration;
     @Value("${cart-service.cart-prefix}")
     private String cartsPrefix;
-    private Map<String,Cart> carts;
+    private Map<String, Cart> carts;
 
     @PostConstruct
     public void init() {
@@ -28,9 +28,9 @@ public class CartService {
     public Cart getCurrentCart(String uuid) {
         String targetUuid = cartsPrefix + uuid;
         if (!carts.containsKey(targetUuid)){
-            carts.put(uuid, new Cart());
+            carts.put(targetUuid, new Cart());
         }
-        return carts.get(uuid);
+        return carts.get(targetUuid);
     }
 
     public void add(String uuid, Long productId) {

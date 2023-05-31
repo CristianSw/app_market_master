@@ -41,9 +41,9 @@
             } catch (e) {
             }
 
-            if ($localStorage.marchMarketUser) {
+            // if ($localStorage.marchMarketUser) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.marchMarketUser.token;
-            }
+            // }
         }
         if (!$localStorage.marketGuestCartId) {
             $http.get('http://localhost:5555/cart/api/v1/cart/generate_uuid')

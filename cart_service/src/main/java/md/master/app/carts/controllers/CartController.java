@@ -19,45 +19,48 @@ public class CartController {
     private final CartConverter cartConverter;
 
     @GetMapping("/generate_uuid")
-    public StringResponse generateUuid(){
+    public StringResponse generateUuid() {
         return new StringResponse(UUID.randomUUID().toString());
     }
 
     @GetMapping("/{uuid}")
-    public CartDto getCurrentCart(@RequestHeader(name = "username", required = false) String username, @PathVariable String uuid){
-        String targetUuid = getCartUuid(username,uuid);
+    public CartDto getCurrentCart(@RequestHeader(name = "username", required = false) String username, @PathVariable String uuid) {
+        String targetUuid = getCartUuid(username, uuid);
         return cartConverter.entityToDto(cartService.getCurrentCart(targetUuid));
     }
 
     @GetMapping("/{uuid}/add/{id}")
-    public void addProductToCart(@RequestHeader(name = "username", required = false) String username,@PathVariable String uuid,@PathVariable Long id){
-        String targetUuid = getCartUuid(username,uuid);
-        cartService.add(targetUuid,id);
+    public void addProductToCart(@RequestHeader(name = "username", required = false) String username, @PathVariable String uuid, @PathVariable Long id) {
+        String targetUuid = getCartUuid(username, uuid);
+        cartService.add(targetUuid, id);
     }
 
     @GetMapping("/{uuid}/inc/{id}")
-    public void increaseQuantity(@RequestHeader(name = "username", required = false) String username,@PathVariable String uuid,@PathVariable Long id){
-        String targetUuid = getCartUuid(username,uuid);
-        cartService.increaseQuantity(targetUuid,id);
+    public void increaseQuantity(@RequestHeader(name = "username", required = false) String username, @PathVariable String uuid, @PathVariable Long id) {
+        String targetUuid = getCartUuid(username, uuid);
+        cartService.increaseQuantity(targetUuid, id);
     }
+
     @GetMapping("/{uuid}/dec/{id}")
-    public void decreaseQuantity(@RequestHeader(name = "username", required = false) String username,@PathVariable String uuid,@PathVariable Long id){
-        String targetUuid = getCartUuid(username,uuid);
-        cartService.decreaseQuantity(targetUuid,id);
+    public void decreaseQuantity(@RequestHeader(name = "username", required = false) String username, @PathVariable String uuid, @PathVariable Long id) {
+        String targetUuid = getCartUuid(username, uuid);
+        cartService.decreaseQuantity(targetUuid, id);
     }
 
     @GetMapping("/{uuid}/clear")
-    public void clear(@RequestHeader(name = "username", required = false) String username,@PathVariable String uuid){
-        String targetUuid = getCartUuid(username,uuid);
+    public void clear(@RequestHeader(name = "username", required = false) String username, @PathVariable String uuid) {
+        String targetUuid = getCartUuid(username, uuid);
         cartService.clear(targetUuid);
     }
+
     @GetMapping("/{uuid}/remove/{id}")
-    public void removeFromCart(@RequestHeader(name = "username", required = false) String username,@PathVariable String uuid,@PathVariable Long id){
-        String targetUuid = getCartUuid(username,uuid);
-        cartService.remove(targetUuid,id);
+    public void removeFromCart(@RequestHeader(name = "username", required = false) String username, @PathVariable String uuid, @PathVariable Long id) {
+        String targetUuid = getCartUuid(username, uuid);
+        cartService.remove(targetUuid, id);
     }
-    private String getCartUuid(String username, String uuid){
-        if (username != null){
+
+    private String getCartUuid(String username, String uuid) {
+        if (username != null) {
             return username;
         }
         return uuid;
