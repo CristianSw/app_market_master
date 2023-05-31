@@ -6,53 +6,57 @@ import md.master.app.api.ProductDto;
 import md.master.app.carts.integrations.ProductServiceIntegration;
 import md.master.app.carts.model.Cart;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final ProductServiceIntegration productServiceIntegration;
+    private final RedisTemplate<String, Object> redisTemplate;
+
     @Value("${cart-service.cart-prefix}")
     private String cartsPrefix;
-    private Map<String, Cart> carts;
-
-    @PostConstruct
-    public void init() {
-        carts = new HashMap<>();
-    }
 
     public Cart getCurrentCart(String uuid) {
         String targetUuid = cartsPrefix + uuid;
-        if (!carts.containsKey(targetUuid)){
-            carts.put(targetUuid, new Cart());
+        if (!redisTemplate.hasKey(targetUuid)) {
+            redisTemplate.opsForValue().set(targetUuid, new Cart());
         }
-        return carts.get(targetUuid);
+        return (Cart) redisTemplate.opsForValue().get(targetUuid);
     }
 
     public void add(String uuid, Long productId) {
         ProductDto product = productServiceIntegration.getProductById(productId);
-        getCurrentCart(uuid).add(product);
+        execute(uuid, cart -> cart.add(product));
     }
 
     public void clear(String uuid) {
-        getCurrentCart(uuid).clear();
+        execute(uuid, Cart::clear);
     }
 
-    public void remove(String uuid, Long productId){
-        getCurrentCart(uuid).remove(productId);
+    public void remove(String uuid, Long productId) {
+        execute(uuid, cart -> cart.remove(productId));
     }
 
     public void increaseQuantity(String uuid, Long productId) {
         ProductDto product = productServiceIntegration.getProductById(productId);
-        getCurrentCart(uuid).increaseQuantity(productId);
+        execute(uuid, cart -> cart.increaseQuantity(productId));
     }
 
     public void decreaseQuantity(String uuid, Long productId) {
         ProductDto product = productServiceIntegration.getProductById(productId);
-        getCurrentCart(uuid).decreaseQuantity(productId);
+        execute(uuid, cart -> cart.decreaseQuantity(productId));
+    }
+
+    private void execute(String uuid, Consumer<Cart> operation) {
+        Cart cart = getCurrentCart(uuid);
+        operation.accept(cart);
+        redisTemplate.opsForValue().set(cartsPrefix + uuid, cart);
     }
 }
