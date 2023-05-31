@@ -14,7 +14,7 @@ angular.module('market').controller('storeController', function ($scope, $http, 
     }
 
     $scope.addToCart = function (productId) {
-        $http.get('http://localhost:5555/cart/api/v1/cart/add/' + productId)
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.marketGuestCartId + '/add/' + productId)
             .then(function (response) {
                 $scope.loadCart();
             });

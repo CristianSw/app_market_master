@@ -15,6 +15,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
@@ -33,23 +34,25 @@ class CartControllerTest {
     private CartService cartService;
 
     private Cart cart;
+    private String uuid;
 
     @BeforeEach
     void setUp() {
         cart = Cart.builder().items(List.of(CartItem.builder()
                         .productId(1L)
                         .productTitle("TItle")
-                        .price(100)
-                        .pricePerProduct(100)
+                        .price(BigDecimal.valueOf(100))
+                        .pricePerProduct(BigDecimal.valueOf(100))
                         .quantity(1)
                         .build()))
-                .totalPrice(100).build();
+                .totalPrice(BigDecimal.valueOf(100)).build();
+        uuid = "12y3871238717382hciu1yihfdkjghldh,niulfgasgsdg";
     }
 
     @Test
     @WithMockUser(username = "testuser", roles = "USER")
     void getCurrentCart() throws Exception {
-        given(cartService.getCurrentCart()).willReturn(cart);
+        given(cartService.getCurrentCart(uuid)).willReturn(cart);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/cart")
@@ -62,7 +65,7 @@ class CartControllerTest {
 
     @Test
     void getCurrentCartUnauthorized() throws Exception {
-        given(cartService.getCurrentCart()).willReturn(cart);
+        given(cartService.getCurrentCart(uuid)).willReturn(cart);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/cart")
@@ -81,7 +84,7 @@ class CartControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(cartService, times(1)).add(productId);
+        verify(cartService, times(1)).add(uuid,productId);
     }
 
     @Test
@@ -95,7 +98,7 @@ class CartControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(cartService, times(1)).increaseQuantity(productId);
+        verify(cartService, times(1)).increaseQuantity(uuid,productId);
     }
 
     @Test
@@ -109,7 +112,7 @@ class CartControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(cartService, times(1)).decreaseQuantity(productId);
+        verify(cartService, times(1)).decreaseQuantity(uuid,productId);
     }
 
     @Test
@@ -121,7 +124,7 @@ class CartControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(cartService, times(1)).clear();
+        verify(cartService, times(1)).clear(uuid);
     }
 
     @Test
@@ -135,6 +138,6 @@ class CartControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(cartService, times(1)).remove(productId);
+        verify(cartService, times(1)).remove(uuid,productId);
     }
 }

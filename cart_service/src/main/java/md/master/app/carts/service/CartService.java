@@ -3,48 +3,60 @@ package md.master.app.carts.service;
 import lombok.RequiredArgsConstructor;
 
 import md.master.app.api.ProductDto;
-import md.master.app.api.ResourceNotFoundException;
 import md.master.app.carts.integrations.ProductServiceIntegration;
 import md.master.app.carts.model.Cart;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final ProductServiceIntegration productServiceIntegration;
-    private Cart tempCart;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    @PostConstruct
-    public void init() {
-        tempCart = new Cart();
+    @Value("${cart-service.cart-prefix}")
+    private String cartsPrefix;
+
+    public Cart getCurrentCart(String uuid) {
+        String targetUuid = cartsPrefix + uuid;
+        if (!redisTemplate.hasKey(targetUuid)) {
+            redisTemplate.opsForValue().set(targetUuid, new Cart());
+        }
+        return (Cart) redisTemplate.opsForValue().get(targetUuid);
     }
 
-    public Cart getCurrentCart() {
-        return tempCart;
-    }
-
-    public void add(Long productId) {
+    public void add(String uuid, Long productId) {
         ProductDto product = productServiceIntegration.getProductById(productId);
-        tempCart.add(product);
+        execute(uuid, cart -> cart.add(product));
     }
 
-    public void clear() {
-        tempCart.clear();
+    public void clear(String uuid) {
+        execute(uuid, Cart::clear);
     }
 
-    public void remove(Long productId){
-        tempCart.remove(productId);
+    public void remove(String uuid, Long productId) {
+        execute(uuid, cart -> cart.remove(productId));
     }
 
-    public void increaseQuantity(Long productId) {
+    public void increaseQuantity(String uuid, Long productId) {
         ProductDto product = productServiceIntegration.getProductById(productId);
-        tempCart.increaseQuantity(productId);
+        execute(uuid, cart -> cart.increaseQuantity(productId));
     }
 
-    public void decreaseQuantity(Long productId) {
+    public void decreaseQuantity(String uuid, Long productId) {
         ProductDto product = productServiceIntegration.getProductById(productId);
-        tempCart.decreaseQuantity(productId);
+        execute(uuid, cart -> cart.decreaseQuantity(productId));
+    }
+
+    private void execute(String uuid, Consumer<Cart> operation) {
+        Cart cart = getCurrentCart(uuid);
+        operation.accept(cart);
+        redisTemplate.opsForValue().set(cartsPrefix + uuid, cart);
     }
 }

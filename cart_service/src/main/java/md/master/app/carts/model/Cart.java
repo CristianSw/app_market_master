@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import md.master.app.api.ProductDto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,22 +15,21 @@ import java.util.List;
 @Builder
 public class Cart {
     private List<CartItem> items;
-    private int totalPrice;
-    private boolean presentFlag;
+    private BigDecimal totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
     }
 
-    public List<CartItem> getItems() {
-        return Collections.unmodifiableList(items);
-    }
+//    public List<CartItem> getItems() {
+//        return Collections.unmodifiableList(items);
+//    }
 
 
     public void add(ProductDto product) {
         for (CartItem item : items) {
             if (product.getId().equals(item.getProductId())) {
-                item.changeqUantity(1);
+                item.changeQuantity(1);
                 recalculate();
                 return;
             }
@@ -40,7 +40,7 @@ public class Cart {
 
     public void clear(){
         items.clear();
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
     }
 
     public void remove(Long productId){
@@ -69,10 +69,9 @@ public class Cart {
     }
 
     private void recalculate() {
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
         for (CartItem item : items) {
-            totalPrice += item.getPricePerProduct() * item.getQuantity();
-            item.setPrice(item.getPricePerProduct() * item.getQuantity());
+            totalPrice = totalPrice.add(item.getPrice());
         }
     }
 }

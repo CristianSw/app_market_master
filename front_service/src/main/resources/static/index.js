@@ -28,28 +28,33 @@
     }
 
     function run($rootScope, $http, $localStorage) {
-        if ($localStorage.masterMarketUser) {
+        if ($localStorage.marchMarketUser) {
             try {
-                let jwt = $localStorage.masterMarketUser.token;
+                let jwt = $localStorage.marchMarketUser.token;
                 let payload = JSON.parse(atob(jwt.split('.')[1]));
                 let currentTime = parseInt(new Date().getTime() / 1000);
                 if (currentTime > payload.exp) {
                     console.log("Token is expired!!!");
-                    delete $localStorage.masterMarketUser;
+                    delete $localStorage.marchMarketUser;
                     $http.defaults.headers.common.Authorization = '';
                 }
             } catch (e) {
             }
 
-            if ($localStorage.masterMarketUser) {
-                $http.defaults.headers.common
-                    .Authorization = 'Bearer ' + $localStorage.masterMarketUser.token;
-            }
+            // if ($localStorage.marchMarketUser) {
+                $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.marchMarketUser.token;
+            // }
+        }
+        if (!$localStorage.marketGuestCartId) {
+            $http.get('http://localhost:5555/cart/api/v1/cart/generate_uuid')
+                .then(function successCallback(response) {
+                    $localStorage.marketGuestCartId = response.data.value;
+                });
         }
     }
 })();
 
-angular.module('market').controller('indexController', function ($scope, $http, $localStorage) {
+angular.module('market').controller('indexController', function ($scope, $http, $location, $localStorage) {
         $scope.tryToAuth = function () {
         $http.post('http://localhost:5555/authorization/auth', $scope.user)
             .then(function successCallback(response) {
@@ -71,6 +76,7 @@ angular.module('market').controller('indexController', function ($scope, $http, 
     $scope.tryToLogout = function () {
         $scope.clearUser();
         $scope.user = null;
+        $location.path('/');
     }
     $scope.clearUser = function () {
         delete $localStorage.masterMarketUser;
