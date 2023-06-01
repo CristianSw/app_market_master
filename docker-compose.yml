@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  postgres-core:
+    image: postgres:9.6
+    domainname: postgres-core
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres-core
+      - POSTGRES_PASSWORD=postgres-core
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-U", "postgres" ]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  postgres-auth:
+    image: postgres:9.6
+    domainname: postgres-auth
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=postgres-auth
+      - POSTGRES_PASSWORD=postgres-auth
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-U", "postgres" ]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  flyway-core:
+    image: boxfuse/flyway
+    command: "-locations=filesystem:/flyway_core -url=jdbc:postgresql://postgres-core:5432/postgres-core -user=postgres-core -password=postgres-core -connectRetries=30 -schemas=public migrate"
+    volumes:
+      - ./flyway_core:/flyway_core
+    depends_on:
+      - postgres-core
+
+  flyway-auth:
+    image: boxfuse/flyway
+    command: "-locations=filesystem:/flyway_auth -url=jdbc:postgresql://postgres-auth:5432/postgres-auth -user=postgres-auth -password=postgres-auth -connectRetries=30 -schemas=public migrate"
+    volumes:
+      - ./flyway_auth:/flyway_auth
+    depends_on:
+      - postgres-auth
+
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
