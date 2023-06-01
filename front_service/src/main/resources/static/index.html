@@ -46,6 +46,9 @@
                         </div>
                     </form>
                 </li>
+                <li class="nav-item" ng-show="!isUserLoggedIn()">
+                    <a class="nav-link" href="#!/registration">Register</a>
+                </li>
                 <li class="nav-item" ng-show="isUserLoggedIn()" style="padding: 4px;">
                     <button class="btn btn-outline-secondary btn-sm" ng-click="tryToLogout()">Logout</button>
                 </li>
@@ -75,6 +78,7 @@
     <script src="store/store.js"></script>
     <script src="carts/carts.js"></script>
     <script src="orders/orders.js"></script>
+    <script src="registration/registration.js"></script>
     <script src="welcome/welcome.js"></script>
 
 </div>

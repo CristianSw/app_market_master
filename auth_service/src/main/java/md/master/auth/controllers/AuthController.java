@@ -3,6 +3,8 @@ package md.master.auth.controllers;
 import lombok.RequiredArgsConstructor;
 import md.master.app.api.JwtRequest;
 import md.master.app.api.JwtResponse;
+import md.master.app.api.RegistrationUserDto;
+import md.master.auth.entities.User;
 import md.master.auth.exceptions.AppError;
 import md.master.auth.services.UserService;
 import md.master.auth.utils.JwtTokenUtil;
@@ -12,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,6 +25,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
@@ -31,6 +35,30 @@ public class AuthController {
             return new ResponseEntity<>(new AppError("CHECK_TOKEN_ERROR", "Некорректный логин или пароль"), HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
+        String token = jwtTokenUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegistrationUserDto registrationUserDto) {
+        if (!registrationUserDto.getPassword().equals(registrationUserDto.getConfirmPassword())){
+            return new ResponseEntity<>(new md.master.app.api.AppError(HttpStatus.BAD_REQUEST.value(), "Passwords dont match."),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (userService.findByUsername(registrationUserDto.getUsername()).isPresent()){
+            return new ResponseEntity<>(new md.master.app.api.AppError(HttpStatus.BAD_REQUEST.value(), "User with this username already present."),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        User user = new User();
+        user.setUsername(registrationUserDto.getUsername());
+        user.setEmail(registrationUserDto.getEmail());
+        user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
+        userService.create(user);
+
+
+        UserDetails userDetails = userService.loadUserByUsername(registrationUserDto.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
