@@ -1,0 +1,26 @@
+<div>
+    <p></p>
+    <h3>Registration</h3>
+    <p></p>
+    <form novalidate ng-submit="funcRegister()">
+        <div class="form-group">
+            <label for="userUsername">Username</label>
+            <input type="text" class="form-control" id="userUsername" aria-describedby="username " placeholder="Enter username" ng-model="reguser.username">
+            <small id="usernameHelp" class="form-text text-muted">Enter your username here!</small>
+        </div>
+        <div class="form-group">
+            <label for="userEmail">Email</label>
+            <input type="email" class="form-control" id="userEmail" aria-describedby="email" placeholder="Enter email" ng-model="reguser.email">
+            <small id="emailHelp" class="form-text text-muted">Enter your email  here!</small>
+        </div>
+        <div class="form-group">
+            <label for="userPasswd1">Password</label>
+            <input type="password" class="form-control" id="userPasswd1" placeholder="Password" ng-model="reguser.password">
+        </div>
+        <div class="form-group">
+            <label for="userConfirmPasswd">Confirm Password</label>
+            <input type="password" class="form-control" id="userConfirmPasswd" placeholder="Confirm password" ng-model="reguser.confirmPassword">
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
