@@ -1,12 +1,19 @@
 package md.master.app.api;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 
+@Schema(description = "Product DTO model")
 public class ProductDto {
+    @Schema(description = "Product id", required = true,example = "1")
     private Long id;
+    @Schema(description = "Product title", required = true,example = "Title 1234")
     private String title;
+    @Schema(description = "Product price", required = true,example = "99.99")
     private BigDecimal price;
+    @Schema(description = "Product category", required = true,example = "Other")
     private String categoryTitle;
 
 
