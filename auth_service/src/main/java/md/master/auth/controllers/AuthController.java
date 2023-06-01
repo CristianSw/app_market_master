@@ -1,5 +1,10 @@
 package md.master.auth.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import md.master.app.api.JwtRequest;
 import md.master.app.api.JwtResponse;
@@ -18,17 +23,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Schema(name = "Authorization", description = "Methods to use for authorization")
 public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
+    @Operation(
+            summary = "Method to create authorization token",
+            responses = {
+                    @ApiResponse(
+                            description = "success", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+                    )
+            }
+    )
     @PostMapping("/auth")
-    public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
+    public ResponseEntity<?> createAuthToken(@RequestBody @Parameter(description = "JWT request object with authorize data", required = true) JwtRequest authRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         } catch (BadCredentialsException e) {
@@ -39,8 +55,17 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
+    @Operation(
+            summary = "Method to register new user",
+            responses = {
+                    @ApiResponse(
+                            description = "success", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+                    )
+            }
+    )
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegistrationUserDto registrationUserDto) {
+    public ResponseEntity<?> register(@RequestBody @Parameter(description = "RegistrationUserDto object with registration data") RegistrationUserDto registrationUserDto) {
         if (!registrationUserDto.getPassword().equals(registrationUserDto.getConfirmPassword())){
             return new ResponseEntity<>(new md.master.app.api.AppError(HttpStatus.BAD_REQUEST.value(), "Passwords dont match."),
                     HttpStatus.BAD_REQUEST);
