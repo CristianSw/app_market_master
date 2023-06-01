@@ -9,6 +9,7 @@ import md.master.app.core.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,5 +35,9 @@ public class OrderService {
         orderRepository.save(order);
         cartServiceIntegration.clearCurrentCart(username);
         return order;
+    }
+
+    public List<Order> findByUsername(String username){
+        return orderRepository.findByUsername(username);
     }
 }

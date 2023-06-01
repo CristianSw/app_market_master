@@ -1,5 +1,23 @@
 <div>
   <p></p>
-  <h1>Market</h1>
-  <p>Here would be your orders</p>
+  <h3>Cart</h3>
+  <p></p>
+  <table class="table table-hover table-txt-schema custom-bg-color " >
+    <thead>
+    <tr>
+      <td>Order ID</td>
+      <td>Delivery Address</td>
+      <td>Phone</td>
+      <td>Price</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="order in orders">
+      <td>{{order.id}}</td>
+      <td>{{order.address}}</td>
+      <td>{{order.phone}}</td>
+      <td>{{order.totalPrice}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
