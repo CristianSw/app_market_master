@@ -6,5 +6,9 @@ angular.module('market').controller('ordersController', function ($scope, $http)
             });
     };
 
+    $scope.goToPay = function (orderId) {
+        $location.path('/order_pay/' + orderId);
+    }
+
     $scope.loadOrders();
 });

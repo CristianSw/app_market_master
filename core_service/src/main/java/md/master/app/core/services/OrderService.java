@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,5 +40,8 @@ public class OrderService {
 
     public List<Order> findByUsername(String username){
         return orderRepository.findByUsername(username);
+    }
+    public Optional<Order> findById(Long orderId){
+        return orderRepository.findById(orderId);
     }
 }
