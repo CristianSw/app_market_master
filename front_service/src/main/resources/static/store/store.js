@@ -1,9 +1,15 @@
 angular.module('market').controller('storeController', function ($scope, $http, $localStorage) {
-      $scope.fillTable = function () {
-        $http.get('http://localhost:5555/core/api/v1/products')
-            .then(function (response) {
-                $scope.products = response.data;
-            });
+      $scope.fillTable = function (pageIndex = 1) {
+          $http({
+              url:'http://localhost:5555/core/api/v1/products',
+              method:'GET',
+              params:{
+                  p: pageIndex
+              }
+          }).then(function (response) {
+              $scope.productsPage = response.data;
+              $scope.generatePagesList($scope.productsPage.totalPages);
+          });
     };
 
     $scope.deleteProduct = function (productId) {
@@ -27,6 +33,14 @@ angular.module('market').controller('storeController', function ($scope, $http, 
                 $scope.newProduct = null;
                 $scope.fillTable();
             });
+    }
+
+    $scope.generatePagesList = function (totalPages){
+        out = [];
+        for (let i = 0; i < totalPages; i++) {
+            out.push(i + 1);
+        }
+        $scope.pagesList = out;
     }
     $scope.fillTable();
 });

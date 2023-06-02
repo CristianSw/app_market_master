@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import md.master.app.api.AppError;
+import md.master.app.api.PageDto;
 import md.master.app.api.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import md.master.app.api.ProductDto;
@@ -35,12 +36,12 @@ public class ProductController {
             responses = {
                     @ApiResponse(
                             description = "success", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = Page.class))
+                            content = @Content(schema = @Schema(implementation = PageDto.class))
                     )
             }
     )
     @GetMapping
-    public List<ProductDto> findProducts(
+    public PageDto<ProductDto> findProducts(
             @RequestParam(required = false, name = "min_price") @Parameter(description = "value for min_price filter", required = false) Integer min_price,
             @RequestParam(required = false, name = "max_price") @Parameter(description = "value for max_price filter", required = false) Integer max_price,
             @RequestParam(required = false, name = "title") @Parameter(description = "value for title filter", required = false) String title,
@@ -50,8 +51,13 @@ public class ProductController {
             page = 1;
         }
         Specification<Product> spec = productService.createSpecByFilters(min_price,max_price,title);
+        Page<ProductDto> JpaPage = productService.findAll(spec,page- 1).map(productConverter::entityToDto);
+        PageDto<ProductDto> out = new PageDto<>();
+        out.setPage(JpaPage.getNumber());
+        out.setItems(JpaPage.getContent());
+        out.setTotalPages(JpaPage.getTotalPages());
 
-        return productService.findAll(spec,page- 1).map(productConverter::entityToDto).getContent();
+        return out;
     }
 
 
