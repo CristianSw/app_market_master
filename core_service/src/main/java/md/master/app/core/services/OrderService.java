@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +26,7 @@ public class OrderService {
         Order order = new Order();
         order.setUsername(username);
         order.setTotalPrice(cartDto.getTotalPrice());
+        //order.setOrderStatus("CREATED");
         order.setOrderItems(cartDto.getItems().stream().map(cartItem -> new OrderItem(
                         productService.findById(cartItem.getProductId()).get(),
                         order,
@@ -40,4 +42,16 @@ public class OrderService {
     public List<Order> findByUsername(String username){
         return orderRepository.findByUsername(username);
     }
+    public Optional<Order> findById(Long orderId){
+        return orderRepository.findById(orderId);
+    }
+
+//    @Transactional
+//    public Order updateOrder(String username,Long id, String orderStatus) {
+//        CartDto cartDto = cartServiceIntegration.getCurrentCart(username);
+//        Order order = findById(id).get();
+//        order.setOrderStatus(orderStatus);
+//        orderRepository.save(order);
+//        return order;
+//    }
 }

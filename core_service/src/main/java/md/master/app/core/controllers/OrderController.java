@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import md.master.app.api.OrderDto;
+import md.master.app.api.ResourceNotFoundException;
 import md.master.app.core.convertors.OrderConvertor;
 import md.master.app.core.services.OrderService;
 import org.springframework.data.domain.Page;
@@ -51,5 +52,10 @@ public class OrderController {
     @GetMapping
     public List<OrderDto> getUserOrders(@RequestHeader(name = "username")  @Parameter(description = "User username get from header", required = true, example = "bob") String username){
     return orderService.findByUsername(username).stream().map(orderConvertor::entityToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public OrderDto getOrderById(@PathVariable Long id) {
+        return orderConvertor.entityToDto(orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("ORDER 404")));
     }
 }
