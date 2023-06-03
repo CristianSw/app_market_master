@@ -1,4 +1,4 @@
-package md.master.app.core.paypal;
+package md.master.app.core.controllers;
 
 import com.paypal.core.PayPalHttpClient;
 import com.paypal.http.HttpResponse;
@@ -7,6 +7,7 @@ import com.paypal.orders.OrderRequest;
 import com.paypal.orders.OrdersCaptureRequest;
 import com.paypal.orders.OrdersCreateRequest;
 import lombok.RequiredArgsConstructor;
+import md.master.app.core.services.PayPalService;
 import md.master.app.core.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class PayPalController {
 
         if ("COMPLETED".equals(payPalOrder.status())){
             long orderId = Long.parseLong(payPalOrder.purchaseUnits().get(0).referenceId());
-            Optional<md.master.app.core.entities.Order> orderOptional = orderService.findById(orderId);
+//            Optional<md.master.app.core.entities.Order> orderOptional = orderService.findById(orderId);
             return new ResponseEntity<>("Order completed", HttpStatus.valueOf(response.statusCode()));
         }
         return new ResponseEntity<>(payPalOrder, HttpStatus.valueOf(response.statusCode()));

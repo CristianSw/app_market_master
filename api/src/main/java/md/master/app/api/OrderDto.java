@@ -20,6 +20,8 @@ public class OrderDto {
     private String phone;
     @Schema(description = "Order total price that is get from cart service", required = true,example = "300")
     private BigDecimal totalPrice;
+//    @Schema(description = "Order payment status", required = true,example = "Accepted")
+//    private String orderStatus;
 
 
     public Long getId() {
@@ -69,4 +71,12 @@ public class OrderDto {
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+//    public String getOrderStatus() {
+//        return orderStatus;
+//    }
+//
+//    public void setOrderStatus(String orderStatus) {
+//        this.orderStatus = orderStatus;
+//    }
 }

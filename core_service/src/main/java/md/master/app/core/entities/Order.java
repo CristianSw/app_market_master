@@ -34,6 +34,8 @@ public class Order {
     private String phone;
     @Column(name = "total_price")
     private BigDecimal totalPrice;
+//    @Column(name = "order_status")
+//    private String orderStatus;
 
     @CreationTimestamp
     @Column(name = "created_at")
