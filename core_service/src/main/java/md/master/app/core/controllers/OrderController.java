@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import md.master.app.api.OrderDetailsDto;
 import md.master.app.api.OrderDto;
 import md.master.app.api.ResourceNotFoundException;
 import md.master.app.core.convertors.OrderConvertor;
@@ -35,8 +36,9 @@ public class OrderController {
     )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestHeader(name = "username") @Parameter(description = "User username ", required = true, example = "bob") String username){
-    orderService.createOrder(username);
+    public void createOrder(@RequestHeader(name = "username") @Parameter(description = "User username ", required = true, example = "bob") String username,
+                            @RequestBody OrderDetailsDto orderDetailsDto){
+    orderService.createOrder(username, orderDetailsDto);
     }
 
 

@@ -2,6 +2,7 @@ package md.master.app.core.services;
 
 import lombok.RequiredArgsConstructor;
 import md.master.app.api.CartDto;
+import md.master.app.api.OrderDetailsDto;
 import md.master.app.core.entities.Order;
 import md.master.app.core.entities.OrderItem;
 import md.master.app.core.integrations.CartServiceIntegration;
@@ -21,9 +22,11 @@ public class OrderService {
     private final CartServiceIntegration cartServiceIntegration;
 
     @Transactional
-    public Order createOrder(String username) {
+    public Order createOrder(String username, OrderDetailsDto orderDetailsDto) {
         CartDto cartDto = cartServiceIntegration.getCurrentCart(username);
         Order order = new Order();
+        order.setAddress(orderDetailsDto.getAddress());
+        order.setPhone(orderDetailsDto.getPhone());
         order.setUsername(username);
         order.setTotalPrice(cartDto.getTotalPrice());
         //order.setOrderStatus("CREATED");
