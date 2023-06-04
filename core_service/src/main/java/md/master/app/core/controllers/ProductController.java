@@ -12,15 +12,10 @@ import md.master.app.api.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import md.master.app.api.ProductDto;
 import md.master.app.core.convertors.ProductConverter;
-import md.master.app.core.entities.Product;
 import md.master.app.core.services.ProductService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -41,23 +36,22 @@ public class ProductController {
             }
     )
     @GetMapping
-    public PageDto<ProductDto> findProducts(
-            @RequestParam(required = false, name = "min_price") @Parameter(description = "value for min_price filter", required = false) Integer min_price,
-            @RequestParam(required = false, name = "max_price") @Parameter(description = "value for max_price filter", required = false) Integer max_price,
-            @RequestParam(required = false, name = "title") @Parameter(description = "value for title filter", required = false) String title,
-            @RequestParam(defaultValue = "1", name = "p") @Parameter(description = "value for page", required = true, allowEmptyValue = false,example = "1") Integer page
+    public Page<ProductDto> getAllProducts(
+            @RequestParam(defaultValue = "1", name = "p") @Parameter(description = "value for page", required = false, allowEmptyValue = false,example = "1") Integer page,
+            @RequestParam(required = false, name = "min_price") @Parameter(description = "value for min_price filter", required = false) Integer minPrice,
+            @RequestParam(required = false, name = "max_price") @Parameter(description = "value for max_price filter", required = false) Integer maxPrice,
+            @RequestParam(required = false, name = "title_part") @Parameter(description = "value for title filter", required = false) String titlePart
     ) {
         if (page < 1){
             page = 1;
         }
-        Specification<Product> spec = productService.createSpecByFilters(min_price,max_price,title);
-        Page<ProductDto> JpaPage = productService.findAll(spec,page- 1).map(productConverter::entityToDto);
-        PageDto<ProductDto> out = new PageDto<>();
-        out.setPage(JpaPage.getNumber());
-        out.setItems(JpaPage.getContent());
-        out.setTotalPages(JpaPage.getTotalPages());
-
-        return out;
+//        Specification<Product> spec = productService.createSpecByFilters(min_price,max_price, titlePart);
+//        Page<ProductDto> JpaPage = productService.findAll(spec,page- 1).map(productConverter::entityToDto);
+//        PageDto<ProductDto> out = new PageDto<>();
+//        out.setPage(JpaPage.getNumber());
+//        out.setItems(JpaPage.getContent());
+//        out.setTotalPages(JpaPage.getTotalPages());
+        return productService.findAll(minPrice, maxPrice, titlePart, page).map(p -> productConverter.entityToDto(p));
     }
 
 

@@ -31,13 +31,27 @@ angular.module('market').controller('cartsController', function ($scope, $http, 
         });
     }
 
-    $scope.createOrder = function (productId) {
-        $http.post('http://localhost:5555/core/api/v1/orders')
-            .then(function (response) {
-                alert("Order created ! ")
-                $scope.loadCart();
-            });
+    // $scope.createOrder = function (productId) {
+    //     $http.post('http://localhost:5555/core/api/v1/orders')
+    //         .then(function (response) {
+    //             alert("Order created ! ")
+    //             $scope.loadCart();
+    //         });
+    // }
+    $scope.disabledCheckOut = function () {
+        alert("To create order you need to login or register !");
     }
+
+    $scope.checkOut = function () {
+        $http({
+            url: 'http://localhost:5555/core/api/v1/orders',
+            method: 'POST',
+            data: $scope.orderDetails
+        }).then(function (response) {
+            $scope.loadCart();
+            $scope.orderDetails = null
+        });
+    };
 
     $scope.loadCart();
 });

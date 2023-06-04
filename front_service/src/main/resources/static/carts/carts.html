@@ -10,7 +10,7 @@
       <td>Price</td>
       <td>
         <button class="btn btn-danger" ng-click="clearCart()">Clear Cart</button>
-        <button class="btn btn-primary" ng-click="createOrder()">Create Order </button>
+<!--        <button class="btn btn-primary" ng-click="createOrder()">Create Order </button>-->
       </td>
     </tr>
     </thead>
@@ -35,4 +35,16 @@
     </tr>
     </tbody>
   </table>
+
+  <p></p>
+  <h3>Order details</h3>
+  <form novalidate>
+    <input class="form-control" type="text" placeholder="Phone Number" ng-model="orderDetails.phone">
+    <p></p>
+    <input class="form-control" type="text" placeholder="Delivery Address" ng-model="orderDetails.address">
+    <p></p>
+  </form>
+
+  <button class="btn btn-primary" ng-click="checkOut()" ng-show="isUserLoggedIn() && cart.items.length > 0">Create Order</button>
+  <button class="btn btn-primary" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn() && cart.items.length > 0">Create Order</button>
 </div>

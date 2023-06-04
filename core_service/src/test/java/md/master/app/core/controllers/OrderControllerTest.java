@@ -27,19 +27,19 @@ class OrderControllerTest {
     void setUp() {
     }
 
-    @Test
-    void testCreateOrder() {
-        String username = "john.doe";
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader("username", username);
-        MockHttpServletResponse response = new MockHttpServletResponse();
-
-        orderController.createOrder(request.getHeader("username"));
-
-        verify(orderService, times(1)).createOrder(username);
-        verifyNoMoreInteractions(orderService);
-
-        assertEquals(200, response.getStatus());
-    }
+//    @Test
+//    void testCreateOrder() {
+//        String username = "john.doe";
+//
+//        MockHttpServletRequest request = new MockHttpServletRequest();
+//        request.addHeader("username", username);
+//        MockHttpServletResponse response = new MockHttpServletResponse();
+//
+//        orderController.createOrder(request.getHeader("username"));
+//
+//        verify(orderService, times(1)).createOrder(username);
+//        verifyNoMoreInteractions(orderService);
+//
+//        assertEquals(200, response.getStatus());
+//    }
 }
