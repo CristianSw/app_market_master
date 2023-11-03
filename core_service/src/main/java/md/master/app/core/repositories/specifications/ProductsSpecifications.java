@@ -15,9 +15,10 @@ public class ProductsSpecifications {
     }
 
     public static Specification<Product> titleLike(String titlePart) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart));
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(
+                criteriaBuilder.lower(root.get("title")),
+                "%" + titlePart.toLowerCase() + "%"
+        );
     }
-
-
 }
 

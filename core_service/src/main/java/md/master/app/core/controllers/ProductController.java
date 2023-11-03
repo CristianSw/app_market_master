@@ -45,13 +45,7 @@ public class ProductController {
         if (page < 1){
             page = 1;
         }
-//        Specification<Product> spec = productService.createSpecByFilters(min_price,max_price, titlePart);
-//        Page<ProductDto> JpaPage = productService.findAll(spec,page- 1).map(productConverter::entityToDto);
-//        PageDto<ProductDto> out = new PageDto<>();
-//        out.setPage(JpaPage.getNumber());
-//        out.setItems(JpaPage.getContent());
-//        out.setTotalPages(JpaPage.getTotalPages());
-        return productService.findAll(minPrice, maxPrice, titlePart, page).map(p -> productConverter.entityToDto(p));
+        return productService.findAll(minPrice, maxPrice, titlePart, page).map(productConverter::entityToDto);
     }
 
 
