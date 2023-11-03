@@ -9,7 +9,7 @@
       <td>Count</td>
       <td>Price</td>
       <td>
-        <button class="btn btn-danger" ng-click="clearCart()">Clear Cart</button>
+        <button class="btn btn-danger" id="clear-cart-btn" ng-click="clearCart()">Clear Cart</button>
 <!--        <button class="btn btn-primary" ng-click="createOrder()">Create Order </button>-->
       </td>
     </tr>
@@ -18,13 +18,13 @@
     <tr ng-repeat="item in cart.items">
       <td>{{item.productTitle}}</td>
       <td>
-        <button class="btn btn-danger" ng-click="decreaseQuantity(item.productId)">-</button>
+        <button class="btn btn-danger" id="product-dec" ng-click="decreaseQuantity(item.productId)">-</button>
         {{item.quantity}}
-        <button class="btn btn-primary" ng-click="increaseQuantity(item.productId)">+</button>
+        <button class="btn btn-primary" id="product-inc" ng-click="increaseQuantity(item.productId)">+</button>
       </td>
       <td>{{item.pricePerProduct + ' x ' + item.quantity + ' = ' + item.price}}</td>
       <td>
-        <button class="btn btn-danger" ng-click="removeFromCart(item.productId)">Remove from Cart</button>
+        <button class="btn btn-danger" id="remove-from-cart" ng-click="removeFromCart(item.productId)">Remove from Cart</button>
       </td>
     </tr>
     <tr>
@@ -39,12 +39,12 @@
   <p></p>
   <h3>Order details</h3>
   <form novalidate>
-    <input class="form-control" type="text" placeholder="Phone Number" ng-model="orderDetails.phone">
+    <input class="form-control" type="text" id="phone-number" placeholder="Phone Number" ng-model="orderDetails.phone">
     <p></p>
-    <input class="form-control" type="text" placeholder="Delivery Address" ng-model="orderDetails.address">
+    <input class="form-control" type="text" id="delivery-address" placeholder="Delivery Address" ng-model="orderDetails.address">
     <p></p>
   </form>
 
-  <button class="btn btn-primary" ng-click="checkOut()" ng-show="isUserLoggedIn() && cart.items.length > 0">Create Order</button>
-  <button class="btn btn-primary" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn() && cart.items.length > 0">Create Order</button>
+  <button class="btn btn-primary" id="create-order-enabled" ng-click="checkOut()" ng-show="isUserLoggedIn() && cart.items.length > 0">Create Order</button>
+  <button class="btn btn-primary" id="create-order-disabled" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn() && cart.items.length > 0">Create Order</button>
 </div>
